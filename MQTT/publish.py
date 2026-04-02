@@ -1,37 +1,43 @@
 import paho.mqtt.client as mqtt
 import time
+from components.logger import writeToLog
 
 # 1. Ustawienia
 BROKER = "localhost"
 PORT = 1883
-TOPIC = "sensors/device_01/power"
-PAYLOAD = "250.5" # Twoja symulowana moc w Watach
+UID = "Device_01"
+TOPIC = "pusage/{}".format(UID)
 
 # 2. Inicjalizacja klienta (Ważne: VERSION2 dla nowych bibliotek)
 client = mqtt.Client(mqtt.CallbackAPIVersion.VERSION2)
 
-# 3. Połączenie
-try:
-    client.connect(BROKER, PORT, 60)
-    
-    # Rozpoczęcie pętli obsługującej komunikację w tle
-    client.loop_start()
 
-    # 4. Publikowanie
-    result = client.publish(TOPIC, PAYLOAD)
-    
-    # Sprawdzenie czy wysłano
-    status = result.rc
-    if status == 0:
-        print(f"Wysłano '{PAYLOAD}' do tematu: {TOPIC}")
-    else:
-        print(f"Błąd wysyłania do tematu {TOPIC}")
+    # 3. Połączenie
+def publishToTopic(topic, data):
+    try:
+        client.connect(BROKER, PORT, 60)
+        
+        # Rozpoczęcie pętli obsługującej komunikację w tle
+        client.loop_start()
 
-    # Krótka pauza, żeby upewnić się, że wiadomość "wyleciała" z bufora
-    time.sleep(1)
-    
-    client.loop_stop()
-    client.disconnect()
+        # 4. Publikowanie
+        result = client.publish(topic, data)
+        
+        # Sprawdzenie czy wysłano
+        status = result.rc
+        if status == 0:
+            writeToLog(topic, data, status)
+        elif status == 1:
+            writeToLog(topic, data, status)
+        else:
+            writeToLog(topic, data, status)
+        
+        client.loop_stop()
+        client.disconnect()
 
-except Exception as e:
-    print(f"Nie udało się połączyć: {e}")
+    except Exception as e:
+        print(f"Nie udało się połączyć: {e}")
+
+publishToTopic(TOPIC, "8W")
+publishToTopic(TOPIC, "14W")
+publishToTopic(TOPIC, "310W")

@@ -1,29 +1,17 @@
 import paho.mqtt.client as mqtt
-import time
 
-# 1. Ustawienia
-BROKER = "localhost"
-PORT = 1883
-TOPIC = "sensors/device_01/power"
+def on_message(client, userdata, msg):
+    topic = msg.topic              # np. pusage/device_01
+    payload = msg.payload.decode()  # np. "30"
 
-# 2. Inicjalizacja klienta (Ważne: VERSION2 dla nowych bibliotek)
+    device_id = topic.split("/")[1]
+
+    print(f"Urządzenie: {device_id}, moc: {payload} W")
+
 client = mqtt.Client(mqtt.CallbackAPIVersion.VERSION2)
+client.on_message = on_message
 
-# 3. Połączenie
-try:
-    client.connect(BROKER, PORT, 60)
-    
-    # Rozpoczęcie pętli obsługującej komunikację w tle
-    client.loop_start()
+client.connect("localhost", 1883, 60)
+client.subscribe("pusage/#")
 
-    # 4. Odbieranie
-        def on_message(client, userdata, msg)
-
-    # Krótka pauza, żeby upewnić się, że wiadomość "wyleciała" z bufora
-    time.sleep(1)
-    
-    client.loop_stop()
-    client.disconnect()
-
-except Exception as e:
-    print(f"Nie udało się połączyć: {e}")
+client.loop_forever()
