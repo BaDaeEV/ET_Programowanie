@@ -4,25 +4,18 @@ from components.logger import writeToLog
 
 # 1. Ustawienia
 BROKER = "localhost"
-PORT = 1883
+PORT = 13644
 UID = "Device_01"
 TOPIC = "pusage/{}".format(UID)
 
-# 2. Inicjalizacja klienta (Ważne: VERSION2 dla nowych bibliotek)
+# 2. Inicjalizacja klienta (VERSION2)
 client = mqtt.Client(mqtt.CallbackAPIVersion.VERSION2)
 
 
-    # 3. Połączenie
+# 3. Publikowanie
 def publishToTopic(topic, data):
-    try:
-        client.connect(BROKER, PORT, 60)
-        
-        # Rozpoczęcie pętli obsługującej komunikację w tle
-        client.loop_start()
-
-        # 4. Publikowanie
         result = client.publish(topic, data)
-        
+    
         # Sprawdzenie czy wysłano
         status = result.rc
         if status == 0:
@@ -31,13 +24,3 @@ def publishToTopic(topic, data):
             writeToLog(topic, data, status)
         else:
             writeToLog(topic, data, status)
-        
-        client.loop_stop()
-        client.disconnect()
-
-    except Exception as e:
-        print(f"Nie udało się połączyć: {e}")
-
-publishToTopic(TOPIC, "8W")
-publishToTopic(TOPIC, "14W")
-publishToTopic(TOPIC, "310W")

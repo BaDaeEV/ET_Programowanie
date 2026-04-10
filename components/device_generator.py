@@ -46,18 +46,18 @@ def create_new_devices(count, start_index=0, path="../devices", ask=True):
             else:
                 print(f"Błąd: '{choice}' to nieprawidłowy wybór. Spróbuj ponownie.")
 
-    if not os.path.exists(path):
-        os.makedirs(path)
+        if not os.path.exists(path):
+            os.makedirs(path)
+                
+        for i in range(start_index, start_index + count):
+            device_ID = f"Device_{i}"
+            jsonObj_conf = {
+                "id": device_ID,
+                "type": None,
+                "power": None
+            }
             
-    for i in range(start_index, start_index + count):
-        device_ID = f"Device_{i}"
-        jsonObj_conf = {
-            "id": device_ID,
-            "model": None,
-            "power": None
-        }
-        
-        with open(f"{path}/{device_ID}.json", "w") as file:
-            json.dump(jsonObj_conf, file, indent=4)
+            with open(f"{path}/{device_ID}.json", "w") as file:
+                json.dump(jsonObj_conf, file, indent=4)
 
     print(f"Wygenerowano boilerplate dla {count} urządzeń (start od {start_index}).")

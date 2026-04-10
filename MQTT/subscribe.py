@@ -1,5 +1,5 @@
 import paho.mqtt.client as mqtt
-
+port = 13644
 def on_message(client, userdata, msg):
     topic = msg.topic              # np. pusage/device_01
     payload = msg.payload.decode()  # np. "30"
@@ -11,7 +11,7 @@ def on_message(client, userdata, msg):
 client = mqtt.Client(mqtt.CallbackAPIVersion.VERSION2)
 client.on_message = on_message
 
-client.connect("localhost", 1883, 60)
+client.connect("localhost", port, 60)
 client.subscribe("pusage/#")
 
 client.loop_forever()

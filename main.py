@@ -1,7 +1,9 @@
 # To będzie główny plik wykonawczy całego projektu.
 import os
+import time
 from components.getMaxID import get_max_device_id
 from components.device_generator import create_new_devices
+from components.runSimulation import run_simulation
 
 # # Odkomentuj dla Unix/Linux
 # import subprocess
@@ -10,4 +12,11 @@ from components.device_generator import create_new_devices
 # subprocess.run(["chown", "-R" "mateusz:mateusz", project_directory])
 # # Koniec sekcji Unix/Linux
 
-create_new_devices(10, get_max_device_id(), "./devices")
+# Default variables
+DevicesPath = "./devices"
+create_new_devices(10, get_max_device_id(), DevicesPath, True)
+run_simulation(DevicesPath)
+
+
+
+
