@@ -3,6 +3,9 @@ __pycache__/
 *.py[codz]
 *$py.class
 
+# Devices folder
+devices/
+
 # C extensions
 *.so
 

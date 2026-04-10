@@ -3,7 +3,7 @@ import random
 import time
 import threading
 import paho.mqtt.client as mqtt
-from MQTT.publish import publishToTopic
+from components.logger import writeToLog
 PORT = 13644
 BROKER = "localhost"
 class Device:
@@ -37,12 +37,21 @@ class Device:
                 variation = random.uniform(-3, 3)
                 self.power = max(0, self.power + variation)
                 TOPIC = "pusage/{}".format(self.deviceID)
+                PAYLOAD = round(self.power, 2)
 
-                # Publikacja do MQTT 
-                publishToTopic(TOPIC, round(self.power, 2))
+                # KLUCZ: Używamy metody self.client, a nie zewnętrznej funkcji!
+                result = self.client.publish(TOPIC, PAYLOAD)
 
+                # Logowanie wysłanych danych (debug)
+                status = result.rc
+                if status == 0:
+                    writeToLog(TOPIC, PAYLOAD, status)
+                elif status == 1:
+                    writeToLog(TOPIC, PAYLOAD, status)
+                else:
+                    writeToLog(TOPIC, PAYLOAD, status)
+                
                 # Czas pomiędzy pomiarami
-            
                 time.sleep(1)
             # Zakończenie komunikacji z serwerem MQTT    
             self.client.loop_stop()
@@ -52,7 +61,14 @@ class Device:
             print(f"Nie udało się połączyć: {e}")
     
     def start(self):
-        # Uruchamia generowanie mocy w tle
+        try:
+            self.client.connect("localhost", 13644, 60)
+            self.client.loop_start() 
+        except Exception as e:
+            print(f"Błąd połączenia dla {self.deviceID}: {e}")
+            return
+
+        # 2. Uruchamia Twój wątek generujący liczby
         if self._thread is None or not self._thread.is_alive():
             self.state = True
             self._thread = threading.Thread(target=self._run_generation, daemon=True)
