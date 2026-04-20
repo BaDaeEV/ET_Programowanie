@@ -19,7 +19,7 @@ def display_dashboard():
     """Funkcja działająca w osobnym wątku, odświeżająca widok."""
     while True:
         # Czyścimy konsolę (cls dla Windows, clear dla Linux/Mac)
-        os.system("clear")
+        os.system('cls')
         
         print("=== MONITOR URZĄDZEŃ MQTT ===")
         print(f"Aktywnych urządzeń: {len(device_data)}")
@@ -40,6 +40,5 @@ threading.Thread(target=display_dashboard, daemon=True).start()
 
 client.connect("localhost", port, 60)
 client.subscribe("pusage/#")
-
 client.loop_forever()
 
