@@ -1,0 +1,80 @@
+  types:  
+    # 1. Telewizor OLED - Duże różnice w "ON" zależnie od jasności obrazu
+    tv:
+      name: "OLED TV"
+      states:
+        "OFF": { base: 0.0, peak: 0.0 }
+        "STANDBY": { base: 0.5, peak: 2.0 }
+        "ON": { base: 80.0, peak: 320.0 }
+
+    # 2. Lodówka - Praca cykliczna (kompresor)
+    fridge:
+      name: "Refrigerator"
+      states:
+        "OFF": { base: 0.0, peak: 0.0 }
+        "STANDBY": { base: 2.0, peak: 5.0 }   # Tylko elektronika i światło
+        "ON": { base: 60.0, peak: 120.0 }    # Pracujący kompresor
+
+    # 3. Laptop Gamingowy - Bardzo skaczący pobór (CPU/GPU load)
+    laptop:
+      name: "Gaming Laptop"
+      states:
+        "OFF": { base: 0.0, peak: 0.0 }
+        "STANDBY": { base: 1.0, peak: 3.5 }
+        "ON": { base: 45.0, peak: 230.0 }
+
+    # 4. Ładowarka do telefonu - Małe wartości, szybki spadek po naładowaniu
+    phoneCharger:
+      name: "Fast Charger"
+      states:
+        "OFF": { base: 0.0, peak: 0.0 }
+        "STANDBY": { base: 0.1, peak: 0.3 }
+        "ON": { base: 5.0, peak: 25.0 }
+
+    # 5. Pralka - Ogromne skoki podczas grzania wody i wirowania
+    washingMachine:
+      name: "Washing Machine"
+      states:
+        "OFF": { base: 0.0, peak: 0.0 }
+        "STANDBY": { base: 1.0, peak: 4.0 }
+        "ON": { base: 250.0, peak: 2200.0 }
+
+    # 6. Czajnik elektryczny - Urządzenie zero-jedynkowe (rezystancyjne)
+    kettle:
+      name: "Electric Kettle"
+      states:
+        "OFF": { base: 0.0, peak: 0.0 }
+        "STANDBY": { base: 0.0, peak: 0.0 }
+        "ON": { base: 1800.0, peak: 2100.0 }
+
+    # 7. Oświetlenie Smart (LED) - Mały pobór, ale istotny w skali domu
+    smartBulb:
+      name: "Smart LED"
+      states:
+        "OFF": { base: 0.0, peak: 0.0 }
+        "STANDBY": { base: 0.3, peak: 0.7 }   # Moduł Wi-Fi czeka na sygnał
+        "ON": { base: 3.0, peak: 12.0 }
+
+    # 8. Konsola do gier (np. PS5/Xbox)
+    gameConsole:
+      name: "Game Console"
+      states:
+        "OFF": { base: 0.0, peak: 0.0 }
+        "STANDBY": { base: 0.5, peak: 15.0 } # Tryb pobierania w tle może brać więcej
+        "ON": { base: 160.0, peak: 210.0 }
+
+    # 9. Ekspres do kawy - Wysoki pobór tylko podczas parzenia/mielenia
+    coffeMachine:
+      name: "Coffe Machine"
+      states:
+        "OFF": { base: 0.0, peak: 0.0 }
+        "STANDBY": { base: 1.0, peak: 2.5 }
+        "ON": { base: 1000.0, peak: 1450.0 }
+
+    # 10. Router Wi-Fi - Pobór niemal stały przez 24h
+    router:
+      name: "Wi-Fi Router"
+      states:
+        "OFF": { base: 0.0, peak: 0.0 }
+        "STANDBY": { base: 8.0, peak: 10.0 } # Router rzadko bywa w prawdziwym standby
+        "ON": { base: 10.0, peak: 18.0 }

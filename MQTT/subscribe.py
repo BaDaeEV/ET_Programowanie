@@ -19,7 +19,7 @@ def display_dashboard():
     """Funkcja działająca w osobnym wątku, odświeżająca widok."""
     while True:
         # Czyścimy konsolę (cls dla Windows, clear dla Linux/Mac)
-        os.system('cls')
+        os.system('clear')
         
         print("=== MONITOR URZĄDZEŃ MQTT ===")
         print(f"Aktywnych urządzeń: {len(device_data)}")

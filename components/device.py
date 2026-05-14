@@ -7,7 +7,7 @@ from components.logger import writeToLog
 PORT = 13644
 BROKER = "localhost"
 class Device:
-    def __init__(self, device_ID, type="Standard", power=0, state=True, standBy=False):
+    def __init__(self, device_ID, deviceType="", power=0, state=True, standBy=False):
         self.deviceID = device_ID
         self.type = type
         self.power = power if power is not None else 0
@@ -68,7 +68,7 @@ class Device:
             print(f"Błąd połączenia dla {self.deviceID}: {e}")
             return
 
-        # 2. Uruchamia Twój wątek generujący liczby
+        # 2. Uruchamia wątek generujący liczby
         if self._thread is None or not self._thread.is_alive():
             self.state = True
             self._thread = threading.Thread(target=self._run_generation, daemon=True)
